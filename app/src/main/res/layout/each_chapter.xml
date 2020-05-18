@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:cardBackgroundColor="#fff"
+    app:cardCornerRadius="9dp"
+    app:cardElevation="5dp"
+    app:contentPadding="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:id="@+id/fullCard">
+
+
+        <LinearLayout
+            android:id="@+id/titleName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/chaptername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:padding="5dp"
+                android:text="Default title:"
+                android:textColor="#424242"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                android:drawableRight="@drawable/arrow_down"/>
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:layout_below="@+id/titleName"
+            android:id="@+id/ExpandView">
+
+            <TextView
+                android:id="@+id/Videobtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:padding="5dp"
+                android:text="Videos"
+                android:textColor="#424242"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/studyMatbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:padding="5dp"
+                android:text="Study Material"
+                android:textColor="#424242"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/AssignmentBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:padding="5dp"
+                android:text="Assignments"
+                android:textColor="#424242"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
