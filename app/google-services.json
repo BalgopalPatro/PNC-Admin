@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "507748672090",
+    "firebase_url": "https://pnc-android-4bbbc.firebaseio.com",
+    "project_id": "pnc-android-4bbbc",
+    "storage_bucket": "pnc-android-4bbbc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:507748672090:android:dcbaf343beaebd787aee63",
+        "android_client_info": {
+          "package_name": "com.gaurav.pnc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "507748672090-os5v07uf5eanfvehmau37vkm37734bu0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gaurav.pnc",
+            "certificate_hash": "b3cc2499d5a871d88d8b8434e8a2558f3751acf3"
+          }
+        },
+        {
+          "client_id": "507748672090-mou6pk3jhd0ucf3cd0gga3fbt270abqc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNwTEgiIlcQK7hktNKQiiQJ5kAHo_9vz8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "507748672090-mou6pk3jhd0ucf3cd0gga3fbt270abqc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
