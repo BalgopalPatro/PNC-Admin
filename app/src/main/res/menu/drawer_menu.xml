@@ -19,7 +19,7 @@
             android:title="Forum" />
         <item
             android:id="@+id/edit_profile_option"
-            android:icon="@drawable/ic_profile_"
+            android:icon="@drawable/ic_profile"
             android:title="Edit Profile" />
     </group>
     <item android:title="Communicate">

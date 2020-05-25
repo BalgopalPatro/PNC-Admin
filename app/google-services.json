@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "507748672090-4t5b3nij7g4ihlj3e03o39oo6lodurut.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gaurav.pnc",
+            "certificate_hash": "d9b143f562dcc098742ef0a01e798f4023b12266"
+          }
+        },
+        {
+          "client_id": "507748672090-pet16hf3rvkcdgcsa2q5bp70719vuqb9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gaurav.pnc",
+            "certificate_hash": "54e842ba4bf42e060dce43b12db5387c829a54e7"
+          }
+        },
+        {
           "client_id": "507748672090-os5v07uf5eanfvehmau37vkm37734bu0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -30,6 +46,41 @@
       "api_key": [
         {
           "current_key": "AIzaSyDNwTEgiIlcQK7hktNKQiiQJ5kAHo_9vz8"
+        },
+        {
+          "current_key": "AIzaSyCoRAERyInv6kMxOD7YS2-dAn49U0VHn-Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "507748672090-mou6pk3jhd0ucf3cd0gga3fbt270abqc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:507748672090:android:a986e51fe0be48207aee63",
+        "android_client_info": {
+          "package_name": "com.gaurav.pnc_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "507748672090-mou6pk3jhd0ucf3cd0gga3fbt270abqc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNwTEgiIlcQK7hktNKQiiQJ5kAHo_9vz8"
+        },
+        {
+          "current_key": "AIzaSyCoRAERyInv6kMxOD7YS2-dAn49U0VHn-Y"
         }
       ],
       "services": {
