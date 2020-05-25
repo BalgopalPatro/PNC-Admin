@@ -18,6 +18,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 public class PlayVideo extends AppCompatActivity{
 
     YouTubePlayerView youTubePlayerView;
+    private String code;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
@@ -27,13 +28,16 @@ public class PlayVideo extends AppCompatActivity{
         youTubePlayerView = findViewById(R.id.youtube_player_view);
         getLifecycle().addObserver(youTubePlayerView);
 
+        code = getIntent().getStringExtra("code");
+
         youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
             @Override
             public void onReady(@NonNull YouTubePlayer youTubePlayer) {
-                String videoId = "NHAIiAmxTAU";
+                youTubePlayer.pause();
+                String videoId = "code";
                 youTubePlayer.loadVideo(videoId, 1f);
                 addFullScreenListenerToPlayer();
-
+                youTubePlayer.play();
             }
         });
     }

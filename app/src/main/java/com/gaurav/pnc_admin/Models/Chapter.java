@@ -1,6 +1,7 @@
 package com.gaurav.pnc_admin.Models;
 
 public class Chapter {
+    private int slno ;
     private String name ;
     private boolean expanded;
 
@@ -12,9 +13,18 @@ public class Chapter {
         this.expanded = expanded;
     }
 
-    public Chapter(String name) {
+    public Chapter(String name, int slno) {
         this.name = name;
+        this.slno = slno;
         this.expanded = false ;
+    }
+
+    public int getSlno() {
+        return slno;
+    }
+
+    public void setSlno(int slno) {
+        this.slno = slno;
     }
 
     public String getName() {
@@ -25,3 +35,4 @@ public class Chapter {
         this.name = name;
     }
 }
+

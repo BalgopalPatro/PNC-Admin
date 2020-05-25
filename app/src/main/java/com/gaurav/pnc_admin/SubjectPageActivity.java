@@ -1,7 +1,11 @@
 package com.gaurav.pnc_admin;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
@@ -9,12 +13,14 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,8 +43,9 @@ public class SubjectPageActivity extends AppCompatActivity {
     RecyclerView chapterlist;
     private DatabaseReference rootref;
     private DatabaseReference chapteref;
-
     public FirebaseRecyclerAdapter adapter;
+
+    private TextView nchapaddbtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +54,7 @@ public class SubjectPageActivity extends AppCompatActivity {
 
         chapterlist = findViewById(R.id.chapterlist);
         chapterlist.setLayoutManager(new LinearLayoutManager(this));
-
+        nchapaddbtn = findViewById(R.id.nchapaddbtn);
         Course = getIntent().getStringExtra("cource");
         subject = getIntent().getStringExtra("sujectName");
 
@@ -57,6 +64,57 @@ public class SubjectPageActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(getIntent().getStringExtra("sujectName"));
 
         loadChapterList();
+
+        nchapaddbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SubjectPageActivity.this);
+                builder.setTitle("Enter Chapter Name").setCancelable(false) ;
+
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.new_chapter_name_input, null);
+                builder.setView(dialogView);
+
+                final EditText nchname  = dialogView.findViewById(R.id.newchaptername);
+
+
+                builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(),"Hello"+nchname.getText(),Toast.LENGTH_SHORT).show();
+                        if(!nchname.getText().equals(null)){
+                            chapteref.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    int count = (int) dataSnapshot.getChildrenCount();
+                                    chapteref.child(String.valueOf(count+1)).child("name").setValue(nchname.getText().toString());
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Give valid inputs",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                nchname.setText("");
+                                dialog.dismiss();
+                            }
+                        });
+                AlertDialog alertDialog =builder.create();
+                ColorDrawable back = new ColorDrawable(Color.WHITE);
+                InsetDrawable inset = new InsetDrawable(back, 20);
+                alertDialog.getWindow().setBackgroundDrawable(inset);
+                alertDialog.show();
+            }
+        });
+
     }
 
     private void loadChapterList() {
@@ -88,11 +146,8 @@ public class SubjectPageActivity extends AppCompatActivity {
                         .setQuery(query, new SnapshotParser<Chapter>() {
                             @Override
                             public Chapter parseSnapshot(DataSnapshot snapshot) {
-                                if(!snapshot.exists()){
-                                    loadingBar.dismiss();
-                                }
                                 loadingBar.dismiss();
-                                return new Chapter(snapshot.getKey() + " . " + snapshot.child("name").getValue().toString());
+                                return new Chapter(snapshot.child("name").getValue().toString(),Integer.parseInt(snapshot.getKey()) );
                             }
 
                         })
@@ -124,6 +179,7 @@ public class SubjectPageActivity extends AppCompatActivity {
                         i.putExtra("cource",Course);
                         i.putExtra("sujectName",subject);
                         i.putExtra("Chapter",model.getName());
+                        i.putExtra("code", (model.getSlno())+"");
                         startActivity(i);
                     }
                 });
@@ -202,5 +258,7 @@ public class SubjectPageActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 
 }

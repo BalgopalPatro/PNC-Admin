@@ -4,24 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.gaurav.pnc_admin.VideoList"
-    android:gravity="center"
+    tools:context=".VideoList"
+    android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/fullTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Hello"
-        android:textColor="#000"
-        android:textSize="30sp"
-        />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Goto Video Demo Page"
-            android:id="@+id/play"
-            />
-
+    <androidx.recyclerview.widget.RecyclerView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/videoList"
+    />
 </LinearLayout>
