@@ -2,23 +2,24 @@ package com.gaurav.pnc;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.navigation.NavigationView;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.gaurav.pnc.Adapters.Course_list_adapter;
 import com.gaurav.pnc.Models.Course_list_model;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -106,6 +107,7 @@ public class Home_activity extends AppCompatActivity {
         navigationView.getMenu().getItem(0).setChecked(true);
         drawerLayout.closeDrawers();
         if (currentUser == null) {
+            finish();
             SendUserToLoginActivity();
         } else {
             verifyuserexistance();
@@ -183,8 +185,8 @@ public class Home_activity extends AppCompatActivity {
     }
 
     private void SendUserToLoginActivity() {
-        startActivity(new Intent(Home_activity.this, login_activity.class));
         finish();
+        startActivity(new Intent(Home_activity.this, login_activity.class));
     }
 
     private void SendUserToForumActivity() {

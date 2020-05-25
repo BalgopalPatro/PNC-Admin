@@ -1,17 +1,19 @@
 package com.gaurav.pnc;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.gaurav.pnc.Models.User_info;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,10 +30,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+
+import belka.us.androidtoggleswitch.widgets.BaseToggleSwitch;
+import belka.us.androidtoggleswitch.widgets.ToggleSwitch;
 
 public class login_activity extends AppCompatActivity {
 
@@ -43,9 +46,11 @@ public class login_activity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ProgressDialog loadingBar;
     private String phoneNumber;
+    private ToggleSwitch switchtoggle;
+    private int pos = 0;
 
     private DatabaseReference user_ref;
-    private List<String> fac;
+    private List<User_info> fac = fac = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,7 @@ public class login_activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 phoneNumber = inputphonenumber.getText().toString();
+                pos = switchtoggle.getCheckedTogglePosition();
                 if (TextUtils.isEmpty(phoneNumber)) {
                     Toast.makeText(login_activity.this, "Enter valid number", Toast.LENGTH_SHORT).show();
                 } else {
@@ -87,6 +93,7 @@ public class login_activity extends AppCompatActivity {
                 Toast.makeText(login_activity.this, "Invalid, please enter phone number with country code", Toast.LENGTH_SHORT).show();
                 sendverificationbutton.setVisibility(View.VISIBLE);
                 inputphonenumber.setVisibility(View.VISIBLE);
+                switchtoggle.setVisibility(View.VISIBLE);
                 verifybutton.setVisibility(View.INVISIBLE);
                 inputverificationcode.setVisibility(View.INVISIBLE);
             }
@@ -99,6 +106,7 @@ public class login_activity extends AppCompatActivity {
                 loadingBar.dismiss();
                 sendverificationbutton.setVisibility(View.INVISIBLE);
                 inputphonenumber.setVisibility(View.INVISIBLE);
+                switchtoggle.setVisibility(View.INVISIBLE);
                 verifybutton.setVisibility(View.VISIBLE);
                 inputverificationcode.setVisibility(View.VISIBLE);
             }
@@ -132,16 +140,23 @@ public class login_activity extends AppCompatActivity {
         verifybutton = findViewById(R.id.verify_button);
         inputphonenumber = findViewById(R.id.phone_number_input);
         inputverificationcode = findViewById(R.id.verification_code_input);
+        switchtoggle = findViewById(R.id.toggleswitch);
+        switchtoggle.setOnToggleSwitchChangeListener(new BaseToggleSwitch.OnToggleSwitchChangeListener() {
+            @Override
+            public void onToggleSwitchChangeListener(int position, boolean isChecked) {
+                pos = position;
+            }
+        });
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
-        final String[] check = new String[1];
+        hideSoftKeyboard(inputverificationcode);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            SendUserToMMainActivity();
+                            SendUserToMainActivity();
                         } else {
                             loadingBar.dismiss();
                             String msg = task.getException().toString();
@@ -151,36 +166,9 @@ public class login_activity extends AppCompatActivity {
                 });
     }
 
-    private void SendUserToMMainActivity() {
-        check_for_user();
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (check_phone()) {
-                    Intent mainactivity = new Intent(login_activity.this, Home_activity.class);
-                    startActivity(mainactivity);
-                    loadingBar.dismiss();
-                } else {
-                    loadingBar.dismiss();
-                    DatabaseReference rootref = FirebaseDatabase.getInstance().getReference();
-                    String currentuserid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-                    HashMap<String, Object> onlineStatemap = new HashMap<>();
-                    onlineStatemap.put("phone", phoneNumber);
-                    onlineStatemap.put("membership", "demo");
-                    onlineStatemap.put("designation", "student");
-                    onlineStatemap.put("info", "null_student");
-                    rootref.child("Users").child(currentuserid)
-                            .updateChildren(onlineStatemap);
-                    finish();
-                    Intent mainactivity = new Intent(login_activity.this, Home_activity.class);
-                    startActivity(mainactivity);
-                }
-            }
-        }, 5000);
-    }
-
-    private void check_for_user() {
+    private void SendUserToMainActivity() {
+        /*get_users task = new get_users();
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);*/
         fac = new ArrayList<>();
         user_ref = FirebaseDatabase.getInstance().getReference("Users");
         user_ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -189,10 +177,14 @@ public class login_activity extends AppCompatActivity {
                 for (DataSnapshot snap : dataSnapshot.getChildren()) {
                     User_info p = snap.getValue(User_info.class);
                     User_info f = new User_info();
-                    String phone = p.getPhone();
+
+                    String phone = p != null ? p.getPhone() : null;
+                    String designation = p != null ? p.getDesignation() : null;
+
                     f.setPhone(phone);
-                    Log.i("list_phone_numbers", phone);
-                    fac.add(phone);
+                    f.setDesignation(designation);
+
+                    fac.add(f);
                 }
             }
 
@@ -200,14 +192,79 @@ public class login_activity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                final_call();
+            }
+        }, 10000);
+    }
+
+    protected void hideSoftKeyboard(EditText input) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
     }
 
     private boolean check_phone() {
-        for (String snap : fac) {
-            if (snap.equalsIgnoreCase(phoneNumber)) {
+        for (User_info snap : fac) {
+            if (snap.getPhone().equalsIgnoreCase(phoneNumber)) {
+                if (snap.getDesignation().equalsIgnoreCase("admin")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean check_user() {
+        for (User_info snap : fac) {
+            if (snap.getPhone().equalsIgnoreCase(phoneNumber)) {
                 return true;
             }
         }
         return false;
+    }
+
+    private void final_call() {
+        loadingBar.dismiss();
+        switch (pos) {
+            case 0:
+                boolean che = check_user();
+                if (che) {
+                    Toast.makeText(getBaseContext(), "This phone number is already taken", Toast.LENGTH_SHORT).show();
+                    sendverificationbutton.setVisibility(View.VISIBLE);
+                    inputphonenumber.setVisibility(View.VISIBLE);
+                    switchtoggle.setVisibility(View.VISIBLE);
+                    verifybutton.setVisibility(View.INVISIBLE);
+                    inputverificationcode.setVisibility(View.INVISIBLE);
+                } else {
+                    Intent registerfaculty = new Intent(login_activity.this, Faculty_registration.class);
+                    registerfaculty.putExtra("phn", phoneNumber);
+                    startActivity(registerfaculty);
+                    sendverificationbutton.setVisibility(View.VISIBLE);
+                    inputphonenumber.setVisibility(View.VISIBLE);
+                    switchtoggle.setVisibility(View.VISIBLE);
+                    verifybutton.setVisibility(View.INVISIBLE);
+                    inputverificationcode.setVisibility(View.INVISIBLE);
+                }
+                break;
+            case 1:
+                if (check_phone()) {
+                    Intent mainactivity = new Intent(login_activity.this, Home_activity.class);
+                    startActivity(mainactivity);
+                    finish();
+                } else {
+                    Toast.makeText(getBaseContext(), "User is not a member of admin", Toast.LENGTH_SHORT).show();
+                    sendverificationbutton.setVisibility(View.VISIBLE);
+                    inputphonenumber.setVisibility(View.VISIBLE);
+                    switchtoggle.setVisibility(View.VISIBLE);
+                    verifybutton.setVisibility(View.INVISIBLE);
+                    inputverificationcode.setVisibility(View.INVISIBLE);
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -1,11 +1,12 @@
 package com.gaurav.pnc;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.gaurav.pnc.Models.User_info;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,7 +22,7 @@ public class Self_Profile_Activity extends AppCompatActivity {
     private DatabaseReference rootref;
     private String currentuserid;
 
-    private EditText name, phone, design, member;
+    private EditText name, phone, design, member, email;
     private Button updatebutton;
 
     @Override
@@ -39,7 +40,9 @@ public class Self_Profile_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String user_name = name.getText().toString().trim();
+                String user_email = email.getText().toString().trim();
                 rootref.child("Users").child(currentuserid).child("name").setValue(user_name);
+                rootref.child("Users").child(currentuserid).child("email").setValue(user_email);
                 finish();
             }
         });
@@ -56,6 +59,7 @@ public class Self_Profile_Activity extends AppCompatActivity {
                             phone.setText(info.getPhone());
                             design.setText(info.getDesignation());
                             member.setText(info.getMembership());
+                            email.setText(info.getEmail());
                         }
                     }
                     @Override
@@ -66,6 +70,7 @@ public class Self_Profile_Activity extends AppCompatActivity {
 
     private void initializefields() {
         name = findViewById(R.id.fullname);
+        email = findViewById(R.id.email_ui);
         phone = findViewById(R.id.phone_ui);
         design = findViewById(R.id.designation_edittext);
         member = findViewById(R.id.membership_edittext);

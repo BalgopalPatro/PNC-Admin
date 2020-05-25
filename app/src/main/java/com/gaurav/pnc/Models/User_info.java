@@ -1,19 +1,28 @@
 package com.gaurav.pnc.Models;
 
 public class User_info {
-    private String name, phone, membership, designation, info;
+    private String name, phone, membership, designation, info, email;
     private String id;
 
     public User_info() {
     }
 
-    public User_info(String name, String phone, String membership, String designation, String info, String id) {
+    public User_info(String name, String phone, String membership, String designation, String info, String id, String email) {
         this.name = name;
         this.phone = phone;
         this.membership = membership;
         this.designation = designation;
         this.info = info;
         this.id = id;
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getId() {

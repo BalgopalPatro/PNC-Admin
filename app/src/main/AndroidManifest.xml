@@ -11,12 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PlayVideo"
+        <activity android:name=".Faculty_registration"></activity>
+        <activity
+            android:name=".PlayVideo"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:parentActivityName=".VideoList"></activity>
+            android:parentActivityName=".VideoList" />
         <activity
             android:name=".VideoList"
-            android:parentActivityName=".SubjectPageActivity"/>
+            android:parentActivityName=".SubjectPageActivity" />
         <activity
             android:name=".SubjectPageActivity"
             android:parentActivityName=".Courses" />
