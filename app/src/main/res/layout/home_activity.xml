@@ -15,10 +15,41 @@
         android:layout_height="150dp"
         android:progressTint="@color/colorPrimaryDark" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/course_list_recycler_view"
+    <LinearLayout
+        android:layout_marginHorizontal="15dp"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/hayname"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#474747"
+            android:textStyle="bold"
+            android:layout_marginBottom="30dp"
+            android:textSize="35dp"
+            android:fontFamily="Product Sans"
+            />
+
+        <TextView
+            android:textStyle="bold"
+            android:fontFamily="Product Sans"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle_6_shape"
+            android:textSize="25dp"
+            android:paddingHorizontal="10dp"
+            android:layout_marginBottom="15dp"
+            android:paddingVertical="3dp"
+            android:text=" My Courses "/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/course_list_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
