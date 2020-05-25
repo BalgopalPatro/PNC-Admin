@@ -10,9 +10,9 @@
             android:icon="@drawable/assignment"
             android:title="Assignments" />
         <item
-            android:id="@+id/membership_option"
+            android:id="@+id/edit_access"
             android:icon="@drawable/ic_membership"
-            android:title="Membership" />
+            android:title="Edit Access" />
         <item
             android:id="@+id/forum_option"
             android:icon="@drawable/ic_forum"

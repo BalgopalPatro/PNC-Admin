@@ -27,14 +27,16 @@
             android:layout_height="wrap_content"
             android:textColor="#474747"
             android:textStyle="bold"
-            android:layout_marginBottom="30dp"
-            android:textSize="35dp"
+            android:layout_marginBottom="7dp"
+            android:textSize="31sp"
             android:fontFamily="Product Sans"
             />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_margin="3dp"
+            android:id="@+id/my_courses_home_page"
+            android:visibility="invisible"
             android:layout_height="wrap_content">
 
             <TextView
