@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Forum_activity">
+    tools:context="com.gaurav.pnc_admin.Forum_activity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/Chat_list"

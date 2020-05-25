@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChatActivity">
+    tools:context="com.gaurav.pnc_admin.ChatActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/private_messages_list_of_users"

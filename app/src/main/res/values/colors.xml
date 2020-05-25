@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#08326C</color>
-    <color name="colorPrimaryDark">#072E63</color>
+    <color name="colorPrimary">#253A4B</color>
+    <color name="colorPrimaryDark">#253A4B</color>
     <color name="colorAccent">#01579B</color>
+
+    <color name="_bg__loginactivity_ek2_color">#ffffff</color>
+    <color name="ellipse_2_color">#253a4b</color>
+    <color name="ellipse_1_color">#ac2f2f</color>
+    <color name="hello_there__color">#474747</color>
+    <color name="rectangle_6_color">#e7e7e7</color>
+    <color name="login_color">#ffffff</color>
 </resources>
