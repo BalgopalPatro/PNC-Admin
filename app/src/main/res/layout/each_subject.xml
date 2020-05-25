@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="1dp">
 
     <androidx.cardview.widget.CardView
+        app:cardCornerRadius="8dp"
         android:id="@+id/subject_card"
-        android:layout_margin="10dp"
+        android:layout_margin="7dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -17,13 +19,21 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <ImageView
-                android:id="@+id/sub_img"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="105dp"
-                android:layout_gravity="center_horizontal" />
+                app:cardCornerRadius="8dp">
+                <ImageView
+                    android:id="@+id/sub_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="105dp"
+                    android:layout_gravity="center_horizontal" />
+            </androidx.cardview.widget.CardView>
+
+
 
             <TextView
+                android:fontFamily="Product Sans"
                 android:id="@+id/subname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
