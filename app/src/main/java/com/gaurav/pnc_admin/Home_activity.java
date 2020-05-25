@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -52,8 +53,8 @@ public class Home_activity extends AppCompatActivity {
     private RecyclerView recycler;
 
     private String currentuserid;
-    private TextView header_name, header_phone;
-    private String currentname, currentphone;
+    private TextView header_name, header_email;
+    private String currentname, currentemail;
 
     private TextView hayname;
 
@@ -81,7 +82,8 @@ public class Home_activity extends AppCompatActivity {
                     case R.id.assignments_option:
                         return true;
 
-                    case R.id.membership_option:
+                    case R.id.edit_access:
+                        SendUserToEditAccess();
                         return true;
 
                     case R.id.forum_option:
@@ -157,7 +159,7 @@ public class Home_activity extends AppCompatActivity {
 
         mHeader = navigationView.getHeaderView(0);
         header_name = mHeader.findViewById(R.id.header_user_name);
-        header_phone = mHeader.findViewById(R.id.header_user_email);
+        header_email = mHeader.findViewById(R.id.header_user_email);
 
         mtoggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close);
         drawerLayout.addDrawerListener(mtoggle);
@@ -196,6 +198,10 @@ public class Home_activity extends AppCompatActivity {
         startActivity(new Intent(Home_activity.this, Forum_activity.class));
     }
 
+    private void SendUserToEditAccess() {
+        startActivity(new Intent(Home_activity.this, Edit_Access.class));
+    }
+
     private void updateuserinfo() {
         String savecurrenttime, savecurrentdate;
         Calendar calender = Calendar.getInstance();
@@ -214,9 +220,9 @@ public class Home_activity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     currentname = dataSnapshot.child("name").getValue().toString();
-                    currentphone = dataSnapshot.child("phone").getValue().toString();
+                    currentemail = dataSnapshot.child("email").getValue().toString();
                     header_name.setText(currentname);
-                    header_phone.setText(currentphone);
+                    header_email.setText(currentemail);
                     hayname.setText("Hey! "+currentname.split(" ")[0]);
                 }
 
@@ -240,6 +246,8 @@ public class Home_activity extends AppCompatActivity {
                     courselist.add(crs);
                 }
                 pb.setVisibility(View.INVISIBLE);
+                ConstraintLayout lyt = findViewById(R.id.my_courses_home_page);
+                lyt.setVisibility(View.VISIBLE);
                 adapter = new Course_list_adapter(Home_activity.this, courselist);
                 recycler.setAdapter(adapter);
             }
