@@ -11,38 +11,44 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.gaurav.pnc_admin.Faculty_registration"></activity>
         <activity
-            android:name="com.gaurav.pnc_admin.PlayVideo"
+            android:name=".Edit_Particular_student_access"
+            android:parentActivityName=".Edit_Access" />
+        <activity
+            android:name=".Edit_Access"
+            android:parentActivityName=".Home_activity" />
+        <activity android:name=".Faculty_registration" />
+        <activity
+            android:name=".PlayVideo"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:parentActivityName="com.gaurav.pnc_admin.VideoList" />
+            android:parentActivityName=".VideoList" />
         <activity
-            android:name="com.gaurav.pnc_admin.VideoList"
-            android:parentActivityName="com.gaurav.pnc_admin.SubjectPageActivity" />
+            android:name=".VideoList"
+            android:parentActivityName=".SubjectPageActivity" />
         <activity
-            android:name="com.gaurav.pnc_admin.SubjectPageActivity"
-            android:parentActivityName="com.gaurav.pnc_admin.Courses" />
+            android:name=".SubjectPageActivity"
+            android:parentActivityName=".Courses" />
         <activity
-            android:name="com.gaurav.pnc_admin.ChatActivity"
-            android:parentActivityName="com.gaurav.pnc_admin.Forum_activity" />
-        <activity android:name="com.gaurav.pnc_admin.ImageViewerActivity" />
+            android:name=".ChatActivity"
+            android:parentActivityName=".Forum_activity" />
+        <activity android:name=".ImageViewerActivity" />
         <activity
-            android:name="com.gaurav.pnc_admin.ProfileActivity"
-            android:parentActivityName="com.gaurav.pnc_admin.Find_faculty" />
+            android:name=".ProfileActivity"
+            android:parentActivityName=".Find_faculty" />
         <activity
-            android:name="com.gaurav.pnc_admin.Find_faculty"
-            android:parentActivityName="com.gaurav.pnc_admin.Forum_activity" />
+            android:name=".Find_faculty"
+            android:parentActivityName=".Forum_activity" />
         <activity
-            android:name="com.gaurav.pnc_admin.Forum_activity"
-            android:parentActivityName="com.gaurav.pnc_admin.Home_activity" />
+            android:name=".Forum_activity"
+            android:parentActivityName=".Home_activity" />
         <activity
-            android:name="com.gaurav.pnc_admin.Courses"
-            android:parentActivityName="com.gaurav.pnc_admin.Home_activity" />
+            android:name=".Courses"
+            android:parentActivityName=".Home_activity" />
         <activity
-            android:name="com.gaurav.pnc_admin.Self_Profile_Activity"
-            android:parentActivityName="com.gaurav.pnc_admin.Home_activity" />
-        <activity android:name="com.gaurav.pnc_admin.login_activity" />
-        <activity android:name="com.gaurav.pnc_admin.Home_activity">
+            android:name=".Self_Profile_Activity"
+            android:parentActivityName=".Home_activity" />
+        <activity android:name=".login_activity" />
+        <activity android:name=".Home_activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

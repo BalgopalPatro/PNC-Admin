@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.gaurav.pnc_admin.SubjectPageActivity"
     android:orientation="vertical"
-    android:layout_margin =  "10dp">
+    android:layout_margin="5dp">
 
 <!--    <LinearLayout-->
 <!--        android:layout_width="match_parent"-->
@@ -62,7 +62,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.885"
-            android:textSize="30dp"
+            android:textSize="31sp"
             app:layout_constraintStart_toEndOf="@+id/textView"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -71,6 +71,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/chapterlist"/>
-
-
 </LinearLayout>

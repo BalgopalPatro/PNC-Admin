@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,20 +67,28 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+        messageViewholder.receiver_message_text_cont.setVisibility(View.GONE);
         messageViewholder.receiverMessageText.setVisibility(View.GONE);
         messageViewholder.senderMessageText.setVisibility(View.GONE);
         messageViewholder.messagesenderpicture.setVisibility(View.GONE);
         messageViewholder.messagereceiverpicture.setVisibility(View.GONE);
+        messageViewholder.receiver_message_time.setVisibility(View.GONE);
+        messageViewholder.sender_message_text_cont.setVisibility(View.GONE);
 
         if (fromMessageType.equals("text")) {
             if (fromuserid.equals(messageSenderId)) {
                 messageViewholder.senderMessageText.setVisibility(View.VISIBLE);
                 messageViewholder.senderMessageText.setBackgroundResource(R.drawable.my_message);
-                messageViewholder.senderMessageText.setText(messages.getMessage() + "\n" + messages.getTime() + " - " + messages.getDate());
+                messageViewholder.sender_message_time.setText(messages.getTime() + " - " + messages.getDate());
+                messageViewholder.senderMessageText.setText(messages.getMessage());
+                messageViewholder.sender_message_text_cont.setVisibility(View.VISIBLE);
             } else {
+                messageViewholder.receiver_message_text_cont.setVisibility(View.VISIBLE);
                 messageViewholder.receiverMessageText.setVisibility(View.VISIBLE);
                 messageViewholder.receiverMessageText.setBackgroundResource(R.drawable.their_message);
-                messageViewholder.receiverMessageText.setText(messages.getMessage() + "\n" + messages.getTime() + " - " + messages.getDate());
+                messageViewholder.receiverMessageText.setText(messages.getMessage());
+                messageViewholder.receiver_message_time.setVisibility(View.VISIBLE);
+                messageViewholder.receiver_message_time.setText(messages.getTime() + " - " + messages.getDate());
             }
         }
         else if (fromMessageType.equals("image")) {
@@ -336,8 +345,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     }
 
     public class MessageViewholder extends RecyclerView.ViewHolder {
-        public TextView senderMessageText, receiverMessageText;
+        public TextView senderMessageText, receiverMessageText,receiver_message_time,sender_message_time;
         public ImageView messagesenderpicture, messagereceiverpicture;
+        public LinearLayout receiver_message_text_cont,sender_message_text_cont;
 
         public MessageViewholder(@NonNull View itemView) {
             super(itemView);
@@ -345,6 +355,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             receiverMessageText = itemView.findViewById(R.id.receiver_message_text);
             messagereceiverpicture = itemView.findViewById(R.id.message_receiver_image_view);
             messagesenderpicture = itemView.findViewById(R.id.message_sender_image_view);
+            receiver_message_time = itemView.findViewById(R.id.receiver_message_time);
+            receiver_message_text_cont = itemView.findViewById(R.id.receiver_message_text_cont);
+            sender_message_text_cont = itemView.findViewById(R.id.sender_message_text_cont);
+            sender_message_time = itemView.findViewById(R.id.sender_message_time);
         }
     }
 }
+
