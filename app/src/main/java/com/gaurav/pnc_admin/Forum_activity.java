@@ -71,6 +71,22 @@ public class Forum_activity extends AppCompatActivity {
         loadingbar.setCanceledOnTouchOutside(false);
         loadingbar.show();
 
+        chatsref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    chatList.setVisibility(View.VISIBLE);
+                    TextView no = findViewById(R.id.no_one_to_chat);
+                    no.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         FirebaseRecyclerOptions<User_info> options =
                 new FirebaseRecyclerOptions.Builder<User_info>()
                         .setQuery(chatsref, User_info.class)

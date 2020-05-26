@@ -95,12 +95,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="17dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="50dp"
+                android:layout_marginTop="10dp"
                 android:text="Hello There!"
                 android:textColor="#474747"
                 android:fontFamily="Product Sans"
-                android:textSize="50sp"
+                android:textSize="35sp"
                 android:textStyle="bold"
                 />
 
@@ -165,6 +164,7 @@
                 android:layout_marginStart="17dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="17dp"
+                android:paddingBottom="5dp"
                 android:background="@drawable/rectangle_5_shape"
                 android:text="verify"
                 android:textAlignment="center"

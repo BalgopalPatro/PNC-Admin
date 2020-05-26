@@ -5,10 +5,20 @@
     android:layout_height="match_parent"
     tools:context="com.gaurav.pnc_admin.Forum_activity">
 
+    <TextView
+        android:id="@+id/no_one_to_chat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:text="you need to add faculty by searching them to start chatting"
+        android:textAllCaps="true"
+        android:textStyle="bold" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/Chat_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"></androidx.recyclerview.widget.RecyclerView>
+        android:visibility="invisible"></androidx.recyclerview.widget.RecyclerView>
 </RelativeLayout>
