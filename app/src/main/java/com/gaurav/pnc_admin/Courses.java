@@ -83,7 +83,7 @@ public class Courses extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        if(!(nsname.getText().equals(null) && nsiurl.getText().equals(null))){
+                        if(!(nsname.getText().toString().isEmpty()) && !(nsiurl.getText().toString().isEmpty())){
                             courseref.child(nsname.getText().toString()).child("img").setValue(nsiurl.getText().toString());
                             Toast.makeText(getApplicationContext(),nsname.getText()+" is added to the Course "+cource,Toast.LENGTH_SHORT).show();
                         }else{

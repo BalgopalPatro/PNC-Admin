@@ -4,15 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.gaurav.pnc_admin.PlayVideo">
 
     <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
         android:id="@+id/youtube_player_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:videoId="NHAIiAmxTAU"
         app:showVideoDuration="true"
-        app:autoPlay="true"
         app:showYouTubeButton="false"
         app:showFullScreenButton="true" />
 

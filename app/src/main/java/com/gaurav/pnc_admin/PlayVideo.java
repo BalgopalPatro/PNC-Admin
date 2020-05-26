@@ -3,7 +3,6 @@ package com.gaurav.pnc_admin;
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,8 +20,8 @@ public class PlayVideo extends AppCompatActivity{
     private String code;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_video);
 
         youTubePlayerView = findViewById(R.id.youtube_player_view);
@@ -34,10 +33,11 @@ public class PlayVideo extends AppCompatActivity{
             @Override
             public void onReady(@NonNull YouTubePlayer youTubePlayer) {
                 youTubePlayer.pause();
-                String videoId = "code";
-                youTubePlayer.loadVideo(videoId, 1f);
-                addFullScreenListenerToPlayer();
+                String videoId = code;
+                youTubePlayer.loadVideo(videoId, 0f);
                 youTubePlayer.play();
+                addFullScreenListenerToPlayer();
+
             }
         });
     }

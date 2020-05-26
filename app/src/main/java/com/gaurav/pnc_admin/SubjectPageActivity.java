@@ -81,8 +81,7 @@ public class SubjectPageActivity extends AppCompatActivity {
                 builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(),"Hello"+nchname.getText(),Toast.LENGTH_SHORT).show();
-                        if(!nchname.getText().equals(null)){
+                        if(!nchname.getText().toString().isEmpty()){
                             chapteref.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

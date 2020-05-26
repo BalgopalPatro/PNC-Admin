@@ -127,10 +127,8 @@ private Button play;
         builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(),"Hello"+Vlink.getText()+"" +
-                        "\n"+Vtitle.getText(),Toast.LENGTH_SHORT).show();
 
-                if(!(Vlink.getText().equals(null) && Vtitle.getText().equals(null)) ){
+                if(!(Vlink.getText().toString().isEmpty()) && !(Vtitle.getText().toString().isEmpty())  ){
                     vdoListref.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -138,7 +136,6 @@ private Button play;
                             vdoListref.child(String.valueOf(count+1)).child("name").setValue(Vtitle.getText().toString());
                             vdoListref.child(String.valueOf(count+1)).child("code").setValue(getYouTubeId(Vlink.getText().toString()));
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -180,6 +177,8 @@ private Button play;
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildrenCount() > 0){
                     loadingBar.show();
+                }else {
+
                 }
             }
 

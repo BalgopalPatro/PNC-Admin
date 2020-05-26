@@ -127,8 +127,7 @@ public class Home_activity extends AppCompatActivity {
                 builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(getApplicationContext(),"Hello"+ed.getText(),Toast.LENGTH_SHORT).show();
-                                    if(!ed.getText().equals(null)){
+                                    if(!ed.getText().toString().isEmpty()){
                                         rootref.child("Cources").child(ed.getText().toString().toUpperCase()).setValue(1);
                                         Toast.makeText(getApplicationContext(),ed.getText()+" is Added!",Toast.LENGTH_SHORT).show();
                                     }else {

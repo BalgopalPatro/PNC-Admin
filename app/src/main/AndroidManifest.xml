@@ -20,6 +20,7 @@
         <activity android:name=".Faculty_registration" />
         <activity
             android:name=".PlayVideo"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:parentActivityName=".VideoList" />
         <activity
