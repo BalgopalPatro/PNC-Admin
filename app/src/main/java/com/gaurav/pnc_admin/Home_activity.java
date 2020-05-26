@@ -1,16 +1,24 @@
 package com.gaurav.pnc_admin;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
@@ -56,7 +64,7 @@ public class Home_activity extends AppCompatActivity {
     private TextView header_name, header_email;
     private String currentname, currentemail;
 
-    private TextView hayname;
+    private TextView hayname,addcourse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +111,47 @@ public class Home_activity extends AppCompatActivity {
                 return true;
             }
         });
+
+        addcourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Home_activity.this);
+                builder.setTitle("Enter new Course name").setCancelable(false) ;
+
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.course_name_input, null);
+                builder.setView(dialogView);
+
+                final EditText ed  = dialogView.findViewById(R.id.ed);
+
+                builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if(!ed.getText().toString().isEmpty()){
+                                        rootref.child("Cources").child(ed.getText().toString().toUpperCase()).setValue(1);
+                                        Toast.makeText(getApplicationContext(),ed.getText()+" is Added!",Toast.LENGTH_SHORT).show();
+                                    }else {
+                                        Toast.makeText(getApplicationContext(),"Give a valid Course name",Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ed.setText("");
+                                    dialog.dismiss();
+                                }
+                            });
+                    AlertDialog alertDialog =builder.create();
+                    ColorDrawable back = new ColorDrawable(Color.WHITE);
+                    InsetDrawable inset = new InsetDrawable(back, 20);
+                    alertDialog.getWindow().setBackgroundDrawable(inset);
+                    alertDialog.show();
+            }
+        });
+
+
+
     }
 
     @Override
@@ -118,7 +167,6 @@ public class Home_activity extends AppCompatActivity {
         }
         super.onStart();
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (mtoggle.onOptionsItemSelected(item)) {
@@ -149,6 +197,7 @@ public class Home_activity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigationView);
         navigationView.getMenu().getItem(0).setChecked(true);
+        addcourse = findViewById(R.id.addcourse);
 
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -236,9 +285,10 @@ public class Home_activity extends AppCompatActivity {
 
     private void inflate_recycler_view() {
         course_list_ref = FirebaseDatabase.getInstance().getReference("Cources");
-        course_list_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        course_list_ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                courselist = new ArrayList<>();
                 for (DataSnapshot snap : dataSnapshot.getChildren()) {
                     String name = snap.getKey();
                     Course_list_model crs = new Course_list_model();

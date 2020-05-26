@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    app:cardBackgroundColor="#fff"
+    app:cardCornerRadius="15dp"
+    android:id="@+id/card"
+    app:cardElevation="10dp"
+    app:contentPadding="2dp"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingHorizontal="5dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="87dp"
+            app:cardCornerRadius="15dp">
+            <ImageView
+                android:id="@+id/thumb"
+                android:layout_width="match_parent"
+                android:layout_height="87dp"
+                android:src="@mipmap/ic_launcher"
+                />
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_weight="5">
+            <TextView
+                android:id="@+id/course_head"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:padding="5dp"
+                android:text="Default title:"
+                android:textColor="#474747"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+            <TextView
+                android:drawableLeft="@drawable/ic_time"
+                android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="time"
+                android:textColor="#474747"
+                android:paddingHorizontal="5dp"
+                android:paddingBottom="2dp"
+                android:textSize="15dp"
+                />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
