@@ -78,12 +78,16 @@ public class Courses extends AppCompatActivity {
 
                 final EditText nsname  = dialogView.findViewById(R.id.subname);
                 final EditText nsiurl = dialogView.findViewById(R.id.subimglink);
+                String url = nsiurl.getText().toString().trim();
 
                 builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        if(!(nsname.getText().equals(null) && nsiurl.getText().equals(null))){
+                        if (!nsname.getText().toString().trim().equals("")) {
+                            if (nsiurl.getText().toString().trim().equalsIgnoreCase("")) {
+                                nsiurl.setText("https://w7.pngwing.com/pngs/684/622/png-transparent-logo-subject-english-miscellaneous-blue-building-thumbnail.png");
+                            }
                             courseref.child(nsname.getText().toString()).child("img").setValue(nsiurl.getText().toString());
                             Toast.makeText(getApplicationContext(),nsname.getText()+" is added to the Course "+cource,Toast.LENGTH_SHORT).show();
                         }else{

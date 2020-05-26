@@ -30,7 +30,7 @@ public class Edit_Access extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_access_activity);
 
-        getSupportActionBar().setTitle("Students");
+        getSupportActionBar().setTitle("Users");
 
         StudentsRecyclerList = findViewById(R.id.students_recyclerlist);
         StudentsRecyclerList.setLayoutManager(new LinearLayoutManager(this));
@@ -57,9 +57,7 @@ public class Edit_Access extends AppCompatActivity {
                     fac.setInfo(info);
                     fac.setDesignation(designation);
                     fac.setId(id);
-                    if (designation.equalsIgnoreCase("student")) {
-                        Students.add(fac);
-                    }
+                    Students.add(fac);
                 }
                 adapter = new Edit_Access_adapter(Edit_Access.this, Students);
                 StudentsRecyclerList.setAdapter(adapter);
