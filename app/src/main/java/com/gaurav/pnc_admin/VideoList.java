@@ -73,7 +73,6 @@ private Button play;
         chapter = getIntent().getStringExtra("Chapter");
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-
         StrictMode.setThreadPolicy(policy);
 
         getSupportActionBar().setTitle("Videos");
@@ -107,7 +106,6 @@ private Button play;
                 return true;
             case R.id.add_video_option:
                 addVideo();
-
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -322,7 +320,5 @@ class MyVideoViewHolder extends RecyclerView.ViewHolder{
         img = itemView.findViewById(R.id.thumb);
         time = itemView.findViewById(R.id.time);
     }
-
-
 }
 

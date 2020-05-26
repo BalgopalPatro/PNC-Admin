@@ -285,9 +285,10 @@ public class Home_activity extends AppCompatActivity {
 
     private void inflate_recycler_view() {
         course_list_ref = FirebaseDatabase.getInstance().getReference("Cources");
-        course_list_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        course_list_ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                courselist = new ArrayList<>();
                 for (DataSnapshot snap : dataSnapshot.getChildren()) {
                     String name = snap.getKey();
                     Course_list_model crs = new Course_list_model();
