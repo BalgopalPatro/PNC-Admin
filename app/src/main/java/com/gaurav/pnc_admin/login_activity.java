@@ -116,7 +116,7 @@ public class login_activity extends AppCompatActivity {
                 mVerificationId = verificationId;
                 mResendToken = token;
                 loadingBar.dismiss();
-                sendverificationbutton.setVisibility(View.INVISIBLE);
+                sendverificationbutton.setVisibility(View.GONE);
                 inputphonenumber.setVisibility(View.INVISIBLE);
                 switchtoggle.setVisibility(View.INVISIBLE);
                 verifybutton.setVisibility(View.VISIBLE);
@@ -127,7 +127,7 @@ public class login_activity extends AppCompatActivity {
         verifybutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendverificationbutton.setVisibility(View.INVISIBLE);
+                sendverificationbutton.setVisibility(View.GONE);
                 inputphonenumber.setVisibility(View.INVISIBLE);
 
                 String verificationcode = inputverificationcode.getText().toString();

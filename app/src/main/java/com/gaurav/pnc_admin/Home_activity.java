@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -133,8 +134,9 @@ public class Home_activity extends AppCompatActivity {
                 builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if(!ed.getText().toString().isEmpty()){
-                                        rootref.child("Cources").child(ed.getText().toString().toUpperCase()).setValue(1);
+                                    String course_name = ed.getText().toString().trim();
+                                    if (!TextUtils.isEmpty(course_name)) {
+                                        rootref.child("Cources").child(course_name.toUpperCase()).setValue(1);
                                         Toast.makeText(getApplicationContext(),ed.getText()+" is Added!",Toast.LENGTH_SHORT).show();
                                     }else {
                                         Toast.makeText(getApplicationContext(),"Give a valid Course name",Toast.LENGTH_SHORT).show();
@@ -274,7 +276,7 @@ public class Home_activity extends AppCompatActivity {
         HashMap<String, Object> onlineStatemap = new HashMap<>();
         onlineStatemap.put("time", savecurrenttime);
         onlineStatemap.put("date", savecurrentdate);
-        if (currentuserid != null) {
+        if (mAuth.getCurrentUser() != null) {
             currentuserid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
             rootref.child("Users").child(currentuserid)
                     .updateChildren(onlineStatemap);
