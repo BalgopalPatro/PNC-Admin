@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
@@ -40,10 +41,11 @@ import com.google.firebase.database.ValueEventListener;
 public class SubjectPageActivity extends AppCompatActivity {
 
     private String Course,subject;
-    RecyclerView chapterlist;
+    private RecyclerView chapterlist;
     private DatabaseReference rootref;
     private DatabaseReference chapteref;
-    public FirebaseRecyclerAdapter adapter;
+    private FirebaseRecyclerAdapter adapter;
+    private ProgressDialog loadingBar;
 
     private TextView nchapaddbtn;
 
@@ -81,17 +83,17 @@ public class SubjectPageActivity extends AppCompatActivity {
                 builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(!nchname.getText().toString().isEmpty()){
+                        final String chapter_name = nchname.getText().toString().trim();
+                        if (!TextUtils.isEmpty(chapter_name)) {
                             chapteref.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     int count = (int) dataSnapshot.getChildrenCount();
-                                    chapteref.child(String.valueOf(count+1)).child("name").setValue(nchname.getText().toString());
+                                    chapteref.child(String.valueOf(count + 1)).child("name").setValue(chapter_name);
                                 }
 
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
                                 }
                             });
                         }else{
@@ -117,28 +119,10 @@ public class SubjectPageActivity extends AppCompatActivity {
     }
 
     private void loadChapterList() {
-
-        final ProgressDialog loadingBar;
         loadingBar = new ProgressDialog(this);
         loadingBar.setCancelable(false);
         loadingBar.setTitle("Loading...");
         loadingBar.setMessage("Please Wait");
-
-
-        chapteref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getChildrenCount() > 0){
-                    loadingBar.show();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
         Query query = chapteref;
         FirebaseRecyclerOptions<Chapter> options =
                 new FirebaseRecyclerOptions.Builder<Chapter>()
@@ -201,6 +185,7 @@ public class SubjectPageActivity extends AppCompatActivity {
                 });
             }
         };
+        loadingBar.dismiss();
         chapterlist.setAdapter(adapter);
     }
 
