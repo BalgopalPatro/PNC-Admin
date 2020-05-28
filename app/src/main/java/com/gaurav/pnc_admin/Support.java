@@ -7,8 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.gaurav.pnc_admin.Adapters.Find_faculty_adapter;
+import com.gaurav.pnc_admin.Adapters.Support_adapter;
 import com.gaurav.pnc_admin.Models.User_info;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,49 +19,53 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Find_faculty extends AppCompatActivity {
+public class Support extends AppCompatActivity {
 
-    private RecyclerView FindFriendRecyclerList;
-    private Find_faculty_adapter adapter;
-    private List<User_info> faculty;
+    private RecyclerView adminsRecyclerList;
+    private Support_adapter adapter;
+    private List<User_info> admins;
     private DatabaseReference user_ref;
+
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find_faculty);
-        getSupportActionBar().setTitle("Find Faculty");
+        setContentView(R.layout.activity_support);
+        mAuth = FirebaseAuth.getInstance();
+        getSupportActionBar().setTitle("Support: Admins list");
 
-        FindFriendRecyclerList = findViewById(R.id.find_friend_recyclerlist);
-        FindFriendRecyclerList.setLayoutManager(new LinearLayoutManager(this));
+        adminsRecyclerList = findViewById(R.id.support_recyclerview);
+        adminsRecyclerList.setLayoutManager(new LinearLayoutManager(this));
 
         inflate_recyclerview();
     }
 
     private void inflate_recyclerview() {
-        faculty = new ArrayList<>();
+        admins = new ArrayList<>();
         user_ref = FirebaseDatabase.getInstance().getReference("Users");
         user_ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snap : dataSnapshot.getChildren()) {
                     User_info p = snap.getValue(User_info.class);
-                    User_info fac = new User_info();
+                    User_info ad = new User_info();
 
                     String name = p.getName();
                     String info = p.getInfo();
                     String designation = p.getDesignation();
                     String id = snap.getKey();
 
-                    fac.setName(name);
-                    fac.setInfo(info);
-                    fac.setDesignation(designation);
-                    fac.setId(id);
-                    if (!designation.equalsIgnoreCase("student")) {
-                        faculty.add(fac);
+                    ad.setName(name);
+                    ad.setInfo(info);
+                    ad.setDesignation(designation);
+                    ad.setId(id);
+                    if (designation.equalsIgnoreCase("admin") && !(mAuth.getCurrentUser().getUid().equalsIgnoreCase(id))) {
+                        admins.add(ad);
                     }
                 }
-                adapter = new Find_faculty_adapter(Find_faculty.this, faculty);
-                FindFriendRecyclerList.setAdapter(adapter);
+                adapter = new Support_adapter(Support.this, admins);
+                adminsRecyclerList.setAdapter(adapter);
             }
 
             @Override

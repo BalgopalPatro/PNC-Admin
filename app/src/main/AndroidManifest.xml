@@ -10,7 +10,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Pdf"></activity>
+        <activity
+            android:name=".Support"
+            android:parentActivityName=".Home_activity" />
+        <activity
+            android:name=".Tnc"
+            android:parentActivityName=".Home_activity" />
+        <activity android:name=".Pdf" />
         <activity
             android:name=".assign_list"
             android:parentActivityName=".SubjectPageActivity" />

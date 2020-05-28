@@ -94,9 +94,6 @@ public class Home_activity extends AppCompatActivity {
                         drawerLayout.closeDrawers();
                         return true;
 
-                    case R.id.assignments_option:
-                        return true;
-
                     case R.id.edit_access:
                         SendUserToEditAccess();
                         return true;
@@ -110,9 +107,11 @@ public class Home_activity extends AppCompatActivity {
                         return true;
 
                     case R.id.nav_support:
+                        startActivity(new Intent(Home_activity.this, Support.class));
                         return true;
 
                     case R.id.nav_aboutus:
+                        startActivity(new Intent(Home_activity.this, Tnc.class));
                         return true;
                 }
                 return true;
