@@ -28,6 +28,10 @@
                 android:id="@+id/nav_aboutus"
                 android:icon="@drawable/ic_about_new"
                 android:title="About Us" />
+            <item
+                android:id="@+id/nav_tnc"
+                android:icon="@drawable/ic_tnc"
+                android:title="Terms &amp; Conditions" />
         </menu>
     </item>
 </menu>

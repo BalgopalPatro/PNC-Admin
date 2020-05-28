@@ -111,6 +111,9 @@ public class Home_activity extends AppCompatActivity {
                         return true;
 
                     case R.id.nav_aboutus:
+                        return true;
+
+                    case R.id.nav_tnc:
                         startActivity(new Intent(Home_activity.this, Tnc.class));
                         return true;
                 }
