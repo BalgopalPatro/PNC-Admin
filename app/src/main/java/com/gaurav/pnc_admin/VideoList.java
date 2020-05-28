@@ -54,7 +54,6 @@ import java.util.regex.Pattern;
 
 public class VideoList extends AppCompatActivity {
 
-
     private String CourseName,subject,chapter;
     private DatabaseReference rootref;
     private DatabaseReference vdoListref;
@@ -74,6 +73,7 @@ public class VideoList extends AppCompatActivity {
         CourseName = getIntent().getStringExtra("cource");
         subject = getIntent().getStringExtra("sujectName");
         chapter = getIntent().getStringExtra("Chapter");
+        chapterSl = getIntent().getStringExtra("code");
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -82,7 +82,6 @@ public class VideoList extends AppCompatActivity {
         videoList = findViewById(R.id.videoList);
 
         videoList.setLayoutManager(new LinearLayoutManager(this));
-        chapterSl = getIntent().getStringExtra("code");
 
         rootref = FirebaseDatabase.getInstance().getReference();
         vdoListref = rootref.child("Cources").child(CourseName).child(subject).child("Chapters").child(chapterSl).child("video");

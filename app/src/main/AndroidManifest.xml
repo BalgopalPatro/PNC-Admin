@@ -11,6 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Pdf"></activity>
+        <activity
+            android:name=".assign_list"
+            android:parentActivityName=".SubjectPageActivity" />
+        <activity
+            android:name=".study_mat_list"
+            android:parentActivityName=".SubjectPageActivity" />
         <activity
             android:name=".Edit_Particular_student_access"
             android:parentActivityName=".Edit_Access" />
@@ -20,9 +27,9 @@
         <activity android:name=".Faculty_registration" />
         <activity
             android:name=".PlayVideo"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:parentActivityName=".VideoList" />
+            android:parentActivityName=".VideoList"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".VideoList"
             android:parentActivityName=".SubjectPageActivity" />
@@ -51,6 +58,7 @@
         <activity android:name=".login_activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
