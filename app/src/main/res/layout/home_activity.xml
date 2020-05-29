@@ -21,6 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
+            android:id="@+id/lnr_home"
+            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -28,7 +30,7 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/profile_image"/>
+                android:src="@drawable/profile_image" />
 
             <TextView
                 android:id="@+id/hayname"
@@ -45,30 +47,55 @@
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/crd_home"
             app:cardCornerRadius="8dp"
+            android:visibility="invisible"
             android:layout_marginVertical="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <ImageView
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"/>
+                android:layout_height="150dp" />
         </androidx.cardview.widget.CardView>
 
 
-        <TextView
-            android:id="@+id/my_courses_home_activity"
-            android:textStyle="bold"
-            android:visibility="invisible"
-            android:fontFamily="Product Sans"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/my_courses_home_page"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rectangle_6_shape"
-            android:textSize="25dp"
-            android:paddingHorizontal="10dp"
-            android:layout_marginBottom="15dp"
-            android:paddingVertical="3dp"
-            android:text="Courses "/>
+            android:layout_margin="3dp"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/my_courses_home_activity"
+                android:textStyle="bold"
+                android:fontFamily="Product Sans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rectangle_6_shape"
+                android:textSize="25dp"
+                android:paddingHorizontal="10dp"
+                android:layout_marginBottom="15dp"
+                android:paddingVertical="3dp"
+                android:text="Courses "
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/addcourse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:drawableLeft="@drawable/ic_add_circle_black_24dp"
+                android:textSize="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.885"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/course_list_recycler_view"

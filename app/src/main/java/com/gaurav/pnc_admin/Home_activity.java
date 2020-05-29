@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -128,11 +130,6 @@ public class Home_activity extends AppCompatActivity {
         Picasso.get().load("https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=841&q=80")
                 .fit()
                 .into(banner);
-
-        private void SendUserToAboutUsActivity() {
-            Intent i = new Intent(getApplicationContext(),AboutusActivity.class);
-            startActivity(i);
-        }
 
         addcourse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -281,6 +278,11 @@ public class Home_activity extends AppCompatActivity {
         startActivity(new Intent(Home_activity.this, Edit_Access.class));
     }
 
+    private void SendUserToAboutUsActivity() {
+        Intent i = new Intent(getApplicationContext(), AboutusActivity.class);
+        startActivity(i);
+    }
+
     private void updateuserinfo() {
         String savecurrenttime, savecurrentdate;
         Calendar calender = Calendar.getInstance();
@@ -326,8 +328,13 @@ public class Home_activity extends AppCompatActivity {
                     courselist.add(crs);
                 }
                 pb.setVisibility(View.INVISIBLE);
+
+                LinearLayout lnr = findViewById(R.id.lnr_home);
+                CardView crd = findViewById(R.id.crd_home);
                 ConstraintLayout lyt = findViewById(R.id.my_courses_home_page);
                 lyt.setVisibility(View.VISIBLE);
+                crd.setVisibility(View.VISIBLE);
+                lnr.setVisibility(View.VISIBLE);
                 adapter = new Course_list_adapter(Home_activity.this, courselist);
                 recycler.setAdapter(adapter);
             }
