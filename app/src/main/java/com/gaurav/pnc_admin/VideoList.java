@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -47,21 +48,22 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class VideoList extends AppCompatActivity {
 
-
     private String CourseName,subject,chapter;
     private DatabaseReference rootref;
     private DatabaseReference vdoListref;
     private String chapterSl ;
+    private ProgressDialog loadingBar;
 
     public FirebaseRecyclerAdapter adapter;
     private RecyclerView videoList;
-
-private Button play;
+    private String link, title;
+    private Button play;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,7 @@ private Button play;
         CourseName = getIntent().getStringExtra("cource");
         subject = getIntent().getStringExtra("sujectName");
         chapter = getIntent().getStringExtra("Chapter");
+        chapterSl = getIntent().getStringExtra("code");
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -79,15 +82,10 @@ private Button play;
         videoList = findViewById(R.id.videoList);
 
         videoList.setLayoutManager(new LinearLayoutManager(this));
-        chapterSl = getIntent().getStringExtra("code");
 
         rootref = FirebaseDatabase.getInstance().getReference();
         vdoListref = rootref.child("Cources").child(CourseName).child(subject).child("Chapters").child(chapterSl).child("video");
-
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
         loadVideos();
     }
 
@@ -111,6 +109,19 @@ private Button play;
         return super.onOptionsItemSelected(item);
     }
 
+    public static boolean isYoutubeeUrl(String youTubeURl) {
+        boolean success = false;
+        String pattern = "https?://(?:[0-9A-Z-]+\\.)?(?:youtu\\.be/|youtube\\.com\\S*[^\\w\\-\\s])([\\w\\-]{11})(?=[^\\w\\-]|$)(?![?=&+%\\w]*(?:['\"][^<>]*>|</a>))[?=&+%\\w]*";
+
+        Pattern compiledPattern = Pattern.compile(pattern,
+                Pattern.CASE_INSENSITIVE);
+        Matcher matcher = compiledPattern.matcher(youTubeURl);
+        if (matcher.find()) {
+            success = true;
+        }
+        return success;
+    }
+
     private void addVideo() {
         AlertDialog.Builder builder = new AlertDialog.Builder(VideoList.this);
         builder.setTitle("Add new Video").setCancelable(false) ;
@@ -125,24 +136,29 @@ private Button play;
         builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                link = Vlink.getText().toString().trim();
+                title = Vtitle.getText().toString().trim();
 
-                if(!(Vlink.getText().toString().isEmpty()) && !(Vtitle.getText().toString().isEmpty())  ){
-                    vdoListref.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            int count = (int) dataSnapshot.getChildrenCount();
-                            vdoListref.child(String.valueOf(count+1)).child("name").setValue(Vtitle.getText().toString());
-                            vdoListref.child(String.valueOf(count+1)).child("code").setValue(getYouTubeId(Vlink.getText().toString()));
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                if (!(TextUtils.isEmpty(link)) && !(TextUtils.isEmpty(title))) {
+                    if (getYouTubeId(link) != null) {
+                        vdoListref.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                int count = (int) dataSnapshot.getChildrenCount();
+                                vdoListref.child(String.valueOf(count + 1)).child("name").setValue(title);
+                                vdoListref.child(String.valueOf(count + 1)).child("code").setValue(getYouTubeId(link));
+                            }
 
-                        }
-                    });
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                            }
+                        });
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Give valid inputfields", Toast.LENGTH_SHORT).show();
+                    }
                 }else{
                     Toast.makeText(getApplicationContext(),"Give valid inputfields",Toast.LENGTH_SHORT).show();
                 }
-
             }
         })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -156,78 +172,8 @@ private Button play;
         AlertDialog alertDialog =builder.create();
         ColorDrawable back = new ColorDrawable(Color.WHITE);
         InsetDrawable inset = new InsetDrawable(back, 20);
-        alertDialog.getWindow().setBackgroundDrawable(inset);
+        Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawable(inset);
         alertDialog.show();
-    }
-
-    private void loadVideos() {
-        final ProgressDialog loadingBar;
-        loadingBar = new ProgressDialog(this);
-        loadingBar.setCancelable(false);
-        loadingBar.setTitle("Loading...");
-        loadingBar.setMessage("Please Wait");
-
-
-        Query query = vdoListref;
-
-        vdoListref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getChildrenCount() > 0){
-                    loadingBar.show();
-                }else {
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        FirebaseRecyclerOptions<Video> options =
-                new FirebaseRecyclerOptions.Builder<Video>()
-                        .setQuery(query, new SnapshotParser<Video>() {
-                            @Override
-                            public Video parseSnapshot(DataSnapshot snapshot) {
-                                loadingBar.dismiss();
-                                return new Video(snapshot.child("code").getValue().toString(),snapshot.child("name").getValue().toString(),Integer.parseInt(snapshot.getKey()));
-                            }
-
-                        })
-                        .build();
-
-        adapter = new FirebaseRecyclerAdapter<Video,MyVideoViewHolder>(options) {
-            @NonNull
-            @Override
-            public MyVideoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View viewHolder = LayoutInflater.from(parent.getContext()).inflate(R.layout.each_video_card, parent, false);
-                return new MyVideoViewHolder(viewHolder);
-            }
-
-            @Override
-            protected void onBindViewHolder(@NonNull MyVideoViewHolder myVideoViewHolder, int i, @NonNull final Video video) {
-                myVideoViewHolder.name.setText(video.getSlno() + "."+video.getName());
-                Log.d("Image Tag","https://img.youtube.com/vi/"+video.getCode()+"/mqdefault.jpg");
-                Picasso.get().load("https://img.youtube.com/vi/"+video.getCode()+"/mqdefault.jpg")
-                        .into(myVideoViewHolder.img);
-                try {
-                    myVideoViewHolder.time.setText(" "+getDuration(video.getCode()));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                myVideoViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(getApplicationContext(),PlayVideo.class);
-                        i.putExtra("code",video.getCode());
-                        startActivity(i);
-                    }
-                });
-            }
-        };
-        videoList.setAdapter(adapter);
     }
 
     @Override
@@ -305,7 +251,69 @@ private Button play;
         return null;
     }
 
+    private void loadVideos() {
 
+        loadingBar = new ProgressDialog(this);
+        loadingBar.setCancelable(false);
+        loadingBar.setTitle("Loading...");
+        loadingBar.setMessage("Please Wait");
+        loadingBar.show();
+        Query query = vdoListref;
+
+        FirebaseRecyclerOptions<Video> options =
+                new FirebaseRecyclerOptions.Builder<Video>()
+                        .setQuery(query, new SnapshotParser<Video>() {
+                            @NonNull
+                            @Override
+                            public Video parseSnapshot(@NonNull DataSnapshot snapshot) {
+                                loadingBar.dismiss();
+                                String code = " ";
+                                String name = " ";
+                                int key = 0;
+                                if (snapshot.hasChild("code") && snapshot.hasChild("name")) {
+                                    code = snapshot.child("code").getValue().toString();
+                                    name = snapshot.child("name").getValue().toString();
+                                    key = Integer.parseInt(snapshot.getKey());
+                                }
+                                return new Video(code, name, key);
+                            }
+
+                        })
+                        .build();
+
+        adapter = new FirebaseRecyclerAdapter<Video, MyVideoViewHolder>(options) {
+            @NonNull
+            @Override
+            public MyVideoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View viewHolder = LayoutInflater.from(parent.getContext()).inflate(R.layout.each_video_card, parent, false);
+                return new MyVideoViewHolder(viewHolder);
+            }
+
+            @Override
+            protected void onBindViewHolder(@NonNull MyVideoViewHolder myVideoViewHolder, int i, @NonNull final Video video) {
+                loadingBar.dismiss();
+                myVideoViewHolder.name.setText(video.getSlno() + "." + video.getName());
+                Log.d("Image Tag", "https://img.youtube.com/vi/" + video.getCode() + "/mqdefault.jpg");
+                Picasso.get().load("https://img.youtube.com/vi/" + video.getCode() + "/mqdefault.jpg")
+                        .into(myVideoViewHolder.img);
+                try {
+                    myVideoViewHolder.time.setText(" " + getDuration(video.getCode()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                myVideoViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(getApplicationContext(), PlayVideo.class);
+                        i.putExtra("code", video.getCode());
+                        startActivity(i);
+                    }
+                });
+            }
+        };
+        loadingBar.dismiss();
+        videoList.setAdapter(adapter);
+    }
 }
 
 class MyVideoViewHolder extends RecyclerView.ViewHolder{

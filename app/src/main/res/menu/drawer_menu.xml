@@ -6,10 +6,6 @@
             android:icon="@drawable/ic_home"
             android:title="Home" />
         <item
-            android:id="@+id/assignments_option"
-            android:icon="@drawable/assignment"
-            android:title="Assignments" />
-        <item
             android:id="@+id/edit_access"
             android:icon="@drawable/ic_membership"
             android:title="Edit Access" />

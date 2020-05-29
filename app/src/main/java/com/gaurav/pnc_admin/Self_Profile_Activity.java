@@ -58,7 +58,6 @@ public class Self_Profile_Activity extends AppCompatActivity {
                             name.setText(info.getName());
                             phone.setText(info.getPhone());
                             design.setText(info.getDesignation());
-                            member.setText(info.getMembership());
                             email.setText(info.getEmail());
                         }
                     }
@@ -73,7 +72,6 @@ public class Self_Profile_Activity extends AppCompatActivity {
         email = findViewById(R.id.email_ui);
         phone = findViewById(R.id.phone_ui);
         design = findViewById(R.id.designation_edittext);
-        member = findViewById(R.id.membership_edittext);
         updatebutton = findViewById(R.id.update_button);
     }
 }

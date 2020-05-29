@@ -3,6 +3,7 @@ package com.gaurav.pnc_admin;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -51,11 +52,22 @@ public class login_activity extends AppCompatActivity {
 
     private DatabaseReference user_ref;
     private List<User_info> fac = fac = new ArrayList<>();
+    final static String MyPREFERENCES = "login_details";
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+
+        sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String islogin = sharedPreferences.getString("islogin", "false");
+        if (islogin.equalsIgnoreCase("true")) {
+            finish();
+            Intent mainactivity = new Intent(login_activity.this, Home_activity.class);
+            startActivity(mainactivity);
+        }
+
         mAuth = FirebaseAuth.getInstance();
         initialise();
 
@@ -104,7 +116,7 @@ public class login_activity extends AppCompatActivity {
                 mVerificationId = verificationId;
                 mResendToken = token;
                 loadingBar.dismiss();
-                sendverificationbutton.setVisibility(View.INVISIBLE);
+                sendverificationbutton.setVisibility(View.GONE);
                 inputphonenumber.setVisibility(View.INVISIBLE);
                 switchtoggle.setVisibility(View.INVISIBLE);
                 verifybutton.setVisibility(View.VISIBLE);
@@ -115,7 +127,7 @@ public class login_activity extends AppCompatActivity {
         verifybutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendverificationbutton.setVisibility(View.INVISIBLE);
+                sendverificationbutton.setVisibility(View.GONE);
                 inputphonenumber.setVisibility(View.INVISIBLE);
 
                 String verificationcode = inputverificationcode.getText().toString();
@@ -141,6 +153,7 @@ public class login_activity extends AppCompatActivity {
         inputphonenumber = findViewById(R.id.phone_number_input);
         inputverificationcode = findViewById(R.id.verification_code_input);
         switchtoggle = findViewById(R.id.toggleswitch);
+
         switchtoggle.setOnToggleSwitchChangeListener(new BaseToggleSwitch.OnToggleSwitchChangeListener() {
             @Override
             public void onToggleSwitchChangeListener(int position, boolean isChecked) {
@@ -253,6 +266,11 @@ public class login_activity extends AppCompatActivity {
                 if (check_phone()) {
                     Intent mainactivity = new Intent(login_activity.this, Home_activity.class);
                     startActivity(mainactivity);
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("islogin", "true");
+                    editor.apply();
+
                     finish();
                 } else {
                     Toast.makeText(getBaseContext(), "User is not a member of admin", Toast.LENGTH_SHORT).show();

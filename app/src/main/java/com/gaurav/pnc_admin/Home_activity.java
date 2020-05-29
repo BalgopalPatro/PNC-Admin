@@ -1,11 +1,14 @@
 package com.gaurav.pnc_admin;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,7 +33,6 @@ import com.gaurav.pnc_admin.Adapters.Course_list_adapter;
 import com.gaurav.pnc_admin.Models.Course_list_model;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,6 +45,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+
+import static com.gaurav.pnc_admin.login_activity.MyPREFERENCES;
 
 public class Home_activity extends AppCompatActivity {
 
@@ -66,10 +70,13 @@ public class Home_activity extends AppCompatActivity {
 
     private TextView hayname,addcourse;
 
+    private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
+        sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         initialise();
 
         mAuth = FirebaseAuth.getInstance();
@@ -87,9 +94,6 @@ public class Home_activity extends AppCompatActivity {
                         drawerLayout.closeDrawers();
                         return true;
 
-                    case R.id.assignments_option:
-                        return true;
-
                     case R.id.edit_access:
                         SendUserToEditAccess();
                         return true;
@@ -103,9 +107,11 @@ public class Home_activity extends AppCompatActivity {
                         return true;
 
                     case R.id.nav_support:
+                        startActivity(new Intent(Home_activity.this, Support.class));
                         return true;
 
                     case R.id.nav_aboutus:
+                        startActivity(new Intent(Home_activity.this, Tnc.class));
                         return true;
                 }
                 return true;
@@ -127,8 +133,9 @@ public class Home_activity extends AppCompatActivity {
                 builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if(!ed.getText().toString().isEmpty()){
-                                        rootref.child("Cources").child(ed.getText().toString().toUpperCase()).setValue(1);
+                                    String course_name = ed.getText().toString().trim();
+                                    if (!TextUtils.isEmpty(course_name)) {
+                                        rootref.child("Cources").child(course_name.toUpperCase()).setValue(1);
                                         Toast.makeText(getApplicationContext(),ed.getText()+" is Added!",Toast.LENGTH_SHORT).show();
                                     }else {
                                         Toast.makeText(getApplicationContext(),"Give a valid Course name",Toast.LENGTH_SHORT).show();
@@ -156,13 +163,17 @@ public class Home_activity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        /*FirebaseUser currentUser = mAuth.getCurrentUser();
         navigationView.getMenu().getItem(0).setChecked(true);
         drawerLayout.closeDrawers();
         if (currentUser == null) {
             finish();
             SendUserToLoginActivity();
         } else {
+            verifyuserexistance();
+        }*/
+        String islogin = sharedPreferences.getString("islogin", "false");
+        if (islogin.equalsIgnoreCase("true")) {
             verifyuserexistance();
         }
         super.onStart();
@@ -178,6 +189,9 @@ public class Home_activity extends AppCompatActivity {
                 return true;
             case R.id.logout_option:
                 mAuth.signOut();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("islogin", "false");
+                editor.apply();
                 SendUserToLoginActivity();
                 finish();
                 return true;
@@ -261,7 +275,7 @@ public class Home_activity extends AppCompatActivity {
         HashMap<String, Object> onlineStatemap = new HashMap<>();
         onlineStatemap.put("time", savecurrenttime);
         onlineStatemap.put("date", savecurrentdate);
-        if (currentuserid != null) {
+        if (mAuth.getCurrentUser() != null) {
             currentuserid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
             rootref.child("Users").child(currentuserid)
                     .updateChildren(onlineStatemap);
