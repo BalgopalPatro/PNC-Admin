@@ -20,55 +20,55 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/hayname"
-            android:layout_marginTop="10dp"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#474747"
-            android:textStyle="bold"
-            android:layout_marginBottom="7dp"
-            android:textSize="31sp"
-            android:fontFamily="Product Sans"
-            />
+            android:orientation="horizontal">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_margin="3dp"
-            android:id="@+id/my_courses_home_page"
-            android:visibility="invisible"
-            android:layout_height="wrap_content">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/profile_image"/>
 
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
+                android:id="@+id/hayname"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rectangle_6_shape"
-                android:fontFamily="Product Sans"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="3dp"
-                android:text=" My Courses "
-                android:textSize="25dp"
+                android:textColor="#474747"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginBottom="15dp"
+                android:textSize="31sp"
+                android:fontFamily="Product Sans"
+                />
 
-            <TextView
-                android:id="@+id/addcourse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:drawableLeft="@drawable/ic_add_circle_black_24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.885"
-                android:textSize="30dp"
-                app:layout_constraintStart_toEndOf="@+id/textView"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="8dp"
+            android:layout_marginVertical="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/banner"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"/>
+        </androidx.cardview.widget.CardView>
 
 
+        <TextView
+            android:id="@+id/my_courses_home_activity"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            android:fontFamily="Product Sans"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle_6_shape"
+            android:textSize="25dp"
+            android:paddingHorizontal="10dp"
+            android:layout_marginBottom="15dp"
+            android:paddingVertical="3dp"
+            android:text="Courses "/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/course_list_recycler_view"
